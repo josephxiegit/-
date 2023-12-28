@@ -1,0 +1,15 @@
+{
+    "高考练习": 
+    {
+        "key_words": "高考练习",
+        "doc_file1": "current_dir + \\高考\\高考总题库.docx",
+        "doc_file2": "current_dir + \\高考\\2024年高考.docx",
+        "ignore_folder": ""
+    },
+    "历年高二上期末汇总": 
+    {
+        "key_words": "历年高二上期末汇总",
+        "doc_file1": "parent_dir + \\高二下\\历年高二上期末汇总.docx",
+        "ignore_folder": "parent_dir + \\高二下"
+    }
+}
