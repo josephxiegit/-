@@ -1,6 +1,9 @@
 
 ### README
 
+#### 界面预览
+![prevview1](<CleanShot 2023-12-28 at 09.06.32@2x.png>)
+![preview2](<CleanShot 2023-12-28 at 09.06.49@2x_副本.png>)
 #### 使用方法
 ---
 1. 安装python环境
@@ -34,7 +37,11 @@ mac arm64芯片选择 ``MacOSX-arm64.pkg``
      ```shell
      pip install -r requirements.txt
      ```
-
+  5. 运行项目
+     ```shell
+     streamlit run check_duplicate.py
+     http://localhost:8501   // 浏览器输入
+     ```
 #### 文件路径图
 ----
 - 主目录
