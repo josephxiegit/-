@@ -57,6 +57,7 @@ key_words = st.selectbox('输入搜索关键字', key_words_list)
 # 得到题库地址
 for key, value in basic_data.items():
     if value.get('key_words') == key_words:
+        st.info(f'学生习题搜索关键字：{value.get("key_words")}')
         for file_key, file_path in value.items():
             if file_key.startswith('doc_file'):
                 doc_files.append(file_path)
@@ -101,7 +102,7 @@ if len(user_input) == 0:
 elif key_source == "匹配失败":
     st.info("匹配失败，无法查询")
 else:
-    st.warning(f'搜索关键字为：{key_source}')
+    st.warning(f'试题搜索关键字为：{key_source}')
     st.markdown("---")
     st.text("")
     # 查找学生文件
