@@ -77,15 +77,21 @@ for item in basic_data:
 
 # 显示试题
 st.markdown("---")
-user_input = st.text_input("输入文本",key="unique_key_1")
+col1, col2 = st.columns([6, 1])
+with col1:
+    user_input = st.text_input("输入文本",key="unique_key_1")
+with col2:
+    selected_language = st.selectbox("请选择一个搜索内容", ("英文", "中文"), format_func=lambda x: x)
 
 
 # 输入试题
-def get_source():
+def get_source(selected_language="英文"):
     source_doc = pyperclip.paste()
     len_source = len(source_doc)
-
-    match = re.search(r'\b\w+\b(?: \w+){7}', source_doc)
+    if selected_language == "英文":
+        match = re.search(r'\b\w+\b(?: \w+){7}', source_doc)
+    if selected_language == "中文":
+        match = re.search(r'[\u4e00-\u9fff]{15}', source_doc)
 
     if match:
         return match.group()
@@ -94,7 +100,7 @@ def get_source():
 
 
 # 显示关键字和sidebar
-key_source = get_source()
+key_source = get_source(selected_language)
 st.sidebar.write(f'{user_input}')
 
 if len(user_input) == 0:
@@ -127,6 +133,7 @@ else:
             if source_doc in doc_text:
                 count = doc_text.count(source_doc)
                 result_list.append(('docx中重复了{}次'.format(count), doc_file))
+
             else:
                 result_list.append(('docx没有重复', doc_file))
         return result_list
@@ -159,11 +166,19 @@ else:
         else:
             print("无法在当前平台上执行打开操作")
     if user_input != "":
+        i = 0
         for item in doc_list:
-            if "没有重复" in item[0]:
-                st.success(item[0] + "： " + "/".join(item[1].split("/")[-3:]))
-            else:
-                st.error(item[0] + "： " + "/".join(item[1].split("/")[-3:]))
+            col1, col2 = st.columns([6, 1])
+            i += 1
+            with col1:
+                if "没有重复" in item[0]:
+                    st.success(item[0] + "： " + "/".join(item[1].split("/")[-3:]))
+                else:
+                    st.error(item[0] + "： " + "/".join(item[1].split("/")[-3:]))
+            with col2:
+                st.markdown(" ", unsafe_allow_html=True)
+                if st.button(f'打开题库{i}'):
+                    open_docx_file(item[1])
         st.markdown("---")
         st.text("")
 
@@ -177,6 +192,5 @@ else:
             with col2:
                 if "可以新加的学生" in item[0]: 
                     st.markdown(" ", unsafe_allow_html=True)
-                    if st.button(f'点击打开{i}'):
+                    if st.button(f'点击打开{i + 1}'):
                         open_docx_file(item[1])
-                    st.markdown(" ", unsafe_allow_html=True)

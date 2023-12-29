@@ -5,7 +5,7 @@
 
 ----
 
-![prevview1](<CleanShot 2023-12-28 at 09.06.32@2x.png>)
+![prevview1](<CleanShot 2023-12-29 at 16.18.04@2x.png>)
 ![preview2](<CleanShot 2023-12-28 at 09.06.49@2x_副本.png>)
 #### 使用方法
 ---
