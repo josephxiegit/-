@@ -52,6 +52,8 @@ mac arm64芯片选择 ``MacOSX-arm64.pkg``
   - README.md
   - check_duplicate.py
   - config.json
+  - 高考题库2
+    - 高考总题库2.docx
   - 高考
     - 高考总题库.docx
     - 2023 - 2024高考题库.docx
@@ -70,7 +72,7 @@ mac arm64芯片选择 ``MacOSX-arm64.pkg``
 1. 将key_words修改为学生文件夹中习题的关键字
 2. doc_file1, doc_file2 修改为总题库路径
   > mac系统 要把\\修改为/
-3. ignore_folder可以不动，默认是doc_file1的路径
+3. ignore_folder可以不动，默认是doc_file1的路径，也可以用ignore_folder1，ignore_folder2...来设定多个ignore目录
 ```json
 {
     "高考练习": 
@@ -78,7 +80,8 @@ mac arm64芯片选择 ``MacOSX-arm64.pkg``
         "key_words": "高考练习",
         "doc_file1": "current_dir + \\高考\\高考总题库.docx",
         "doc_file2": "current_dir + \\高考\\2024年高考.docx",
-        "ignore_folder": ""
+        "ignore_folder1": "current_dir + \\高考"，
+      	"ignore_folder2": "current_dir + \\高考题库2"
     },
     "历年高二上期末汇总": 
     {
@@ -98,8 +101,6 @@ mac arm64芯片选择 ``MacOSX-arm64.pkg``
 doc_file2: 当年题库路径，尽量保证与总题库不要重复，以便用于来年将来个题库合并。
 > doc_file3， doc_file4 ... 增加多个题库也是可以的，取决于对业务的理解和安排
 
-3. ignore_folder: 忽视文件夹，在做子文件夹遍历时（遍历每个学生），需要忽视的文件夹。一般就是题库所在文件夹，以便于在查询结果中不单独显示 “题库也出现重复”
-> ignore_folder 只支持唯一文件夹；也可以省略默认为doc_file1的路径
-
+3. ignore_folder: 忽视文件夹，在做子文件夹遍历时（遍历每个学生），需要忽视的文件夹。一般就是题库所在文件夹，以便于在查询结果中不单独显示 “题库也出现重复”。如有多个ignore文件夹，可以用ignore_folder1，ignore_folder2...区分
 4. ``current_dir``: 代表当前文件夹
 5. ``parent_dir``: 父文件夹

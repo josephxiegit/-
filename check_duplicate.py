@@ -15,6 +15,7 @@ config_file_path = os.path.normpath('./config.json')
 basic_data = []
 with open(config_file_path, 'r', encoding='utf-8') as file:
     basic_data = json.load(file)
+
 def replace_path_variables(path, current_dir, parent_dir):
     path = path.replace('current_dir + ', current_dir)
     path = path.replace('current_dir', current_dir)
@@ -23,8 +24,8 @@ def replace_path_variables(path, current_dir, parent_dir):
     return path
 for item in basic_data:
     for key, value in basic_data[item].items():
-        if key.startswith("doc_file") or key == "ignore_folder":
-            if key == "ignore_folder" and value == "":
+        if key.startswith("doc_file") or key.startswith("ignore_folder"):
+            if key.startswith("ignore_folder") and value == "":
                 basic_data[item][key] = os.path.dirname(basic_data[item]["doc_file1"])
             else:
                 basic_data[item][key] = replace_path_variables(value, current_dir, parent_dir)
@@ -33,7 +34,7 @@ for item in basic_data:
 
 
 # 定义基础数据
-ignore_folder = current_dir
+ignore_folders = [current_dir]
 doc_file1 = ""
 doc_file2 = ""
 doc_files = []
@@ -70,9 +71,13 @@ for i, file in enumerate(doc_files):
 
 
 # 得到忽视文件夹
+ignore_folders = []
 for item in basic_data:
     if key_words == basic_data[item]["key_words"]:
-        ignore_folder = basic_data[item]["ignore_folder"]
+        ignore_folder_keys = [key for key in basic_data[item].keys() if key.startswith("ignore_folder")]
+
+        for ignore_folder_key in ignore_folder_keys:
+            ignore_folders.append(basic_data[item][ignore_folder_key])
 
 
 # 显示试题
@@ -112,19 +117,21 @@ else:
     st.markdown("---")
     st.text("")
     # 查找学生文件
-    def get_file_path(key_words, ignore_folder=current_dir):
-        file_path = []
+    def get_file_path(key_words, ignore_folders):
+        file_paths = set()
         for root, dirs, files in os.walk(parent_dir):
-            if root == ignore_folder:   # 跳过当前文件夹
-                continue
-            for file_name in files:
-                if key_words in file_name and "~$" not in file_name:
-                    file_path.append(os.path.join(root, file_name))
+            for ignore_folder in ignore_folders:
+                if root == ignore_folder:   # 跳过当前文件夹
+                    break
+            else:
+                for file_name in files:
+                    if key_words in file_name and "~$" not in file_name:
+                        file_paths.add(os.path.join(root, file_name))
 
-        return file_path
-    file_paths = get_file_path(key_words, ignore_folder)
+        return list(file_paths)
+    file_paths = get_file_path(key_words, ignore_folders)
 
-    # 检查俩个题库是否有重复
+    # 检查题库是否有重复
     def is_string_in_docx(source_doc, doc_files):
         result_list = []
         for doc_file in doc_files:
@@ -190,7 +197,7 @@ else:
                 else:
                     st.error(item[0] + "： " + "/".join(item[1].split("/")[-3:]))
             with col2:
-                if "可以新加的学生" in item[0]: 
-                    st.markdown(" ", unsafe_allow_html=True)
-                    if st.button(f'点击打开{i + 1}'):
-                        open_docx_file(item[1])
+                # if "可以新加的学生" in item[0]: 
+                st.markdown(" ", unsafe_allow_html=True)
+                if st.button(f'点击打开{i + 1}'):
+                    open_docx_file(item[1])
