@@ -11,7 +11,7 @@ import json
 st.set_page_config(layout="wide")
 current_dir = os.getcwd()  # 获取当前目录
 parent_dir = os.path.dirname(current_dir)  # 获取上一级目录
-config_file_path = os.path.normpath('./config.json')
+config_file_path = os.path.normpath('./config_mac.json')
 basic_data = []
 with open(config_file_path, 'r', encoding='utf-8') as file:
     basic_data = json.load(file)
